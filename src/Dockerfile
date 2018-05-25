@@ -1,20 +1,12 @@
-FROM nginx
+FROM nginx:alpine
 LABEL maintainer="Elliot Saba <staticfloat@gmail.com>, Valder Gallo <valergallo@gmail.com>, Bruno Zell <bruno.zzell@gmail.com>"
 
 VOLUME /etc/letsencrypt
 EXPOSE 80
 EXPOSE 443
 
-# Do this apt/pip stuff all in one RUN command to avoid creating large
-# intermediate layers on non-squashable docker installs
-RUN apt update && \
-    apt install -y python python-dev libffi6 libffi-dev libssl-dev curl build-essential && \
-    curl -L 'https://bootstrap.pypa.io/get-pip.py' | python && \
-    pip install -U cffi certbot && \
-    apt remove --purge -y python-dev build-essential libffi-dev libssl-dev curl && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN   apk add --update certbot bash ncurses \
+   && rm -rf /var/cache/apk/*
 
 # Copy in scripts for certbot
 COPY ./scripts/ /scripts
