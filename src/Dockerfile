@@ -5,7 +5,7 @@ VOLUME /etc/letsencrypt
 EXPOSE 80
 EXPOSE 443
 
-RUN   apk add --update certbot bash ncurses \
+RUN   apk add --update certbot bash ncurses coreutils \
    && rm -rf /var/cache/apk/*
 
 # Copy in scripts for certbot
