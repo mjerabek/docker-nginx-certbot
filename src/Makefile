@@ -8,7 +8,7 @@ endif
 all: build
 
 build: Makefile Dockerfile
-	$(DOCKER_BUILD) -t nginx-certbot .
+	$(DOCKER_BUILD) --pull -t nginx-certbot .
 	@echo "Done!  Use docker run nginx-certbot to run"
 
 push:
